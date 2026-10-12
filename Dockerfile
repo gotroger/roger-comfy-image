@@ -11,6 +11,7 @@ ARG H3_UPSCALER_SHA=d7c01b9011f2e8439493f6c02c29995a27df276f
 ARG MANAGER_SHA=f39cbd56fecae0b27a446c0cd450cd591f3a8bea
 ARG DOWNLOADER_SHA=c48061e234cb5bf0e17d82a88e546c049f8fa441
 ARG T8_SHA=b6be56527a016f2b9a999432bb30acfa68307e7c
+ARG VFX_SHA=9f2898f92085ea6fe9d5a27bc270282fb6ecbdaf
 ARG TORCH_VERSION=2.9.1
 ARG TORCHVISION_VERSION=0.24.1
 ARG TORCHAUDIO_VERSION=2.9.1
@@ -43,6 +44,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git "${COMFYUI_DIR}" \
 
 # ส่วนเสริม: KJNodes / VideoHelperSuite / ตัวขยาย latent ของ H3 / Manager / HF Downloader (ปุ่ม "ติดตั้งโมเดลที่ขาด" ในโปรแกรมใช้)
 # / T8 v1.97.0 (sampler Dual-Clock ของวิดีโอผิวสมจริง Singularity Balanced)
+# / Nvidia VFX Nodes 0.2.0 (RTX Video Super Resolution ขยาย 0.8 MP → 1080×1920; nvidia-vfx มาจาก pypi.nvidia.com)
 RUN set -eux; cd "${COMFYUI_DIR}/custom_nodes"; \
     for spec in \
         "https://github.com/kijai/ComfyUI-KJNodes.git ComfyUI-KJNodes ${KJNODES_SHA}" \
@@ -51,6 +53,7 @@ RUN set -eux; cd "${COMFYUI_DIR}/custom_nodes"; \
         "https://github.com/ltdrdata/ComfyUI-Manager.git ComfyUI-Manager ${MANAGER_SHA}" \
         "https://github.com/ciri/comfyui-model-downloader.git comfyui-model-downloader ${DOWNLOADER_SHA}" \
         "https://github.com/T8mars/comfyui-minimax-h3-audio-T8.git comfyui-minimax-h3-audio-T8 ${T8_SHA}" \
+        "https://github.com/Comfy-Org/ComfyUI_Nvidia_VFX_Nodes.git ComfyUI_Nvidia_VFX_Nodes ${VFX_SHA}" \
     ; do \
         set -- $spec; \
         git clone "$1" "$2"; \
